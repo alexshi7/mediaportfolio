@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Shi+Jason Media &amp; Stage Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav">
+      <span class="nav-logo">Alex Shi</span>
+      <div class="nav-links">
+        <a href="#gallery">Sequences</a>
+        <a href="#stills">Stills</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+    <div class="hero">
+      <h1 class="hero-title">Alex's Media Portfolio</h1>
+      <p class="hero-eyebrow">Photography, Videography &amp; Editing</p>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="gallery" class="gallery">
+      <div class="section-header">
+        <h2 class="section-title">Sequences</h2>
+        <p class="section-note">Hover to play, click to enlarge. Each sequence is four frames captured in rapid succession.</p>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Cards rendered by script.js -->
+      </div>
+    </section>
+
+    <section id="stills" class="stills">
+      <div class="section-header">
+        <h2 class="section-title">Stills</h2>
+        <p class="section-note">Click to enlarge. Selected single frames.</p>
+      </div>
+      <!--
+        Grid order matters for placement:
+          Row 1: [V1 col1 span2] [H1 col2] [V2 col3 span2]
+          Row 2:                 [H2 col2]
+          Row 3: [H3 col1]       [H4 col2] [H5 col3]
+        DOM order: V1, H1, V2, H2, H3, H4, H5
+      -->
+      <div class="stills-grid">
+        <figure class="still still-v"><!-- vertical 1 -->
+          <img src="sequencephotos/porterinthedark.jpg" alt="">
+        </figure>
+        <figure class="still still-h"><!-- landscape 1 (stacked top) -->
+          <img src="sequencephotos/lunareclipse-2.jpg" alt="">
+        </figure>
+        <figure class="still still-v"><!-- vertical 2 -->
+          <img src="sequencephotos/yujinintheeye.jpg" alt="">
+        </figure>
+        <figure class="still still-h"><!-- landscape 2 (stacked bottom) -->
+          <img src="sequencephotos/kendallfocus.jpg" alt="">
+        </figure>
+        <figure class="still still-h"><!-- landscape 3 -->
+          <img src="sequencephotos/SHI_11006.jpg" alt="">
+        </figure>
+        <figure class="still still-h"><!-- landscape 4 -->
+          <img src="sequencephotos/porterstrong4.jpg" alt="">
+        </figure>
+        <figure class="still still-h"><!-- landscape 5 — replace with your 5th photo -->
+          <img src="sequencephotos/singersolo.jpg" alt="">
+        </figure>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about-inner">
+        <p class="about-eyebrow">About</p>
+        <h2 class="about-title">Photography, videography<br><em>and editing</em></h2>
+        <div class="about-body">
+          <p>
+            From a young age, I've enjoyed the artistic freedom and expressive power of media.
+            I pursue photography and videography in my freetime, photographing dancers and musicians in performance.
+            My work focuses on rapid-burst sequences that reveal movement as a layered narrative rather than a single frozen moment.
+          </p>
+
+          <p>
+            Jason Bak specializes in photo editing and post-production, with a keen eye for detail and a passion for enhancing visual storytelling.
+            Jason has experience in Adobe Photoshop, Lightroom, and Premiere Pro.
+            Together, we have collaborated on various projects, combining our skills to create compelling visual narratives that have earned recognition from the Cornell Cinema Advisory Board.
+            Our Instagram @berkeliumarsenide features our latest work.
+            We are available for concert series, rehearsal shoots, and editorial work.
+          </p>
+        </div>
+        <a href="#contact" class="btn">Get in touch</a>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <p class="contact-eyebrow">Contact</p>
+      <a href="mailto:ahs285@cornell.edu" class="contact-email">ahs285@cornell.edu + jb2776@cornell.edu</a>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/berkeliumarsenide/" target="_blank" rel="noopener">Instagram</a>
+        <a href="www.linkedin.com/in/alex-shi7" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Alex Shi+Jason Bak. All rights reserved.</p>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <div class="lightbox-seq" id="lightboxSeq"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
