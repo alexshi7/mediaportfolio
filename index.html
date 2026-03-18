@@ -12,20 +12,22 @@
 <body id="top">
 
   <header class="site-header">
-    <nav class="nav">
-      <a href="#top" class="nav-logo">Alex Shi</a>
-      <div class="nav-links">
-        <a href="#gallery">Sequences</a>
-        <a href="#stills">Stills</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
     <div class="hero">
       <h1 class="hero-title">Alex的Media Portfolio</h1>
       <p class="hero-eyebrow">Photography, Videography &amp; Editing</p>
     </div>
   </header>
+
+  <nav class="nav">
+    <a href="#top" class="nav-logo">Alex Shi</a>
+    <div class="nav-links">
+      <a href="#gallery">Sequences</a>
+      <a href="#stills">Stills</a>
+      <a href="#headshots">Headshots</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
   <main>
 
@@ -73,6 +75,41 @@
         <figure class="still still-h"><!-- landscape 5 — replace with your 5th photo -->
           <img src="sequencephotos/singersolo.jpg" alt="">
         </figure>
+
+        <!-- Row 4: 3 horizontals -->
+        <figure class="still still-h">
+          <img src="sequencephotos/lokowork/horizon1.JPG" alt="">
+        </figure>
+        <figure class="still still-h">
+          <img src="sequencephotos/lokowork/horizon2.JPG" alt="">
+        </figure>
+        <figure class="still still-h">
+          <img src="sequencephotos/lokowork/horizon3.JPG" alt="">
+        </figure>
+
+        <!-- Row 5–6: vertical | 2 stacked horizontals | vertical -->
+        <figure class="still still-v">
+          <img src="sequencephotos/lokowork/vertical1.JPG" alt="">
+        </figure>
+        <figure class="still still-h">
+          <img src="sequencephotos/lokowork/horizon4.JPG" alt="">
+        </figure>
+        <figure class="still still-v">
+          <img src="sequencephotos/lokowork/vertical2.JPG" alt="">
+        </figure>
+        <figure class="still still-h">
+          <img src="sequencephotos/lokowork/horizon5.JPG" alt="">
+        </figure>
+      </div>
+    </section>
+
+    <section id="headshots" class="headshots">
+      <div class="section-header">
+        <h2 class="section-title">Headshots</h2>
+        <p class="section-note">Click to enlarge. Use arrows or keyboard to browse.</p>
+      </div>
+      <div class="hs-grid" id="hsGrid">
+        <!-- Rendered by script.js from headshots[] array -->
       </div>
     </section>
 
@@ -101,7 +138,8 @@
 
     <section id="contact" class="contact">
       <p class="contact-eyebrow">Contact</p>
-      <a href="mailto:ahs285@cornell.edu" class="contact-email">ahs285@cornell.edu</a>
+      <p>We’re open to discussing and collaborating on portraits, concerts, events, headshots, and other photography opportunities.</p>
+      <a href="mailto:ahs285@cornell.edu" class="contact-email">ahs285@cornell.edu + jb2776@cornell.edu</a>
       <div class="contact-links">
         <a href="https://www.instagram.com/berkeliumarsenide/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://www.linkedin.com/in/alex-shi7/" target="_blank" rel="noopener">LinkedIn</a>
@@ -119,6 +157,7 @@
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
     <img class="lightbox-img" id="lightboxImg" src="" alt="">
     <div class="lightbox-seq" id="lightboxSeq"></div>
+    <div class="lightbox-hs" id="lightboxHs"></div>
   </div>
 
   <script src="script.js"></script>

@@ -46,6 +46,22 @@ const sequences = [
   },
 ];
 
+// ─── Headshot data ─────────────────────────────────────────────────────────────
+// Replace src paths with your actual headshot files.
+// 'alts' is optional: up to 2 alternate shots from the same session.
+// 'name' appears as a caption in the lightbox.
+
+const headshots = [
+  { src: 'sequencephotos/headshots/SHI_220.jpg', name: 'Portrait 1', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_221.jpg', name: 'Portrait 2', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_222.jpg', name: 'Portrait 3', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_223.jpg', name: 'Portrait 4', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_224.jpg', name: 'Portrait 5', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_225.jpg', name: 'Portrait 6', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_226.jpg', name: 'Portrait 7', session: '', alts: [] },
+  { src: 'sequencephotos/headshots/SHI_227.jpg', name: 'Portrait 8', session: '', alts: [] },
+];
+
 // ─── Card rendering ────────────────────────────────────────────────────────────
 
 function buildCard(seq, index) {
@@ -129,6 +145,20 @@ function buildCard(seq, index) {
   return card;
 }
 
+function buildHsCard(hs, index) {
+  const fig = document.createElement("figure");
+  fig.className = "hs-card";
+
+  const img = document.createElement("img");
+  img.src = hs.src;
+  img.alt = hs.name || "";
+  img.loading = "lazy";
+  fig.appendChild(img);
+
+  fig.addEventListener("click", () => lbOpenHeadshot(index));
+  return fig;
+}
+
 // ─── Animation logic ───────────────────────────────────────────────────────────
 
 function getFrameEls(card) {
@@ -187,16 +217,19 @@ function attachEvents(card) {
 // Handles both still photos (.still img) and animated sequences (seq-cards).
 
 let _lb, _lbImg, _lbSeq, _lbInterval;
+let _lbHs, _lbHsIndex = -1;
 
 function lbClose() {
   if (_lbInterval) { clearInterval(_lbInterval); _lbInterval = null; }
   _lb.classList.remove("is-open");
   document.body.style.overflow = "";
-  // Reset both modes
   _lbImg.src = "";
   _lbImg.style.display = "";
   _lbSeq.classList.remove("is-visible");
   _lbSeq.innerHTML = "";
+  _lbHs.classList.remove("is-visible");
+  _lbHs.innerHTML = "";
+  _lbHsIndex = -1;
 }
 
 function lbOpenStill(src, alt) {
@@ -262,10 +295,119 @@ function lbOpenSeq(seq) {
   }, FRAME_MS);
 }
 
+function lbHsGoto(newIndex) {
+  const img     = _lbHs.querySelector(".lb-hs-img");
+  const nameEl  = _lbHs.querySelector(".lb-hs-name");
+  const counter = _lbHs.querySelector(".lb-hs-counter");
+  const altsEl  = _lbHs.querySelector(".lb-hs-alts");
+
+  img.classList.add("is-fading");
+  setTimeout(() => {
+    const hs = headshots[newIndex];
+    _lbHsIndex = newIndex;
+    img.src = hs.src;
+    img.alt = hs.name || "";
+    nameEl.textContent = hs.name || "";
+    counter.textContent = `${newIndex + 1} / ${headshots.length}`;
+
+    altsEl.innerHTML = "";
+    if (hs.alts && hs.alts.length > 0) {
+      hs.alts.forEach((altSrc) => {
+        const a = document.createElement("img");
+        a.className = "lb-hs-alt";
+        a.src = altSrc;
+        a.addEventListener("click", () => { img.src = altSrc; });
+        altsEl.appendChild(a);
+      });
+      altsEl.style.display = "flex";
+    } else {
+      altsEl.style.display = "none";
+    }
+
+    img.classList.remove("is-fading");
+  }, 150);
+}
+
+function lbOpenHeadshot(index) {
+  _lbHs.innerHTML = "";
+
+  const stage = document.createElement("div");
+  stage.className = "lb-hs-stage";
+
+  const prevBtn = document.createElement("button");
+  prevBtn.className = "lb-hs-prev";
+  prevBtn.innerHTML = "&#8592;";
+  prevBtn.setAttribute("aria-label", "Previous");
+  prevBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    lbHsGoto((_lbHsIndex - 1 + headshots.length) % headshots.length);
+  });
+
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "lb-hs-imgwrap";
+  const img = document.createElement("img");
+  img.className = "lb-hs-img";
+  img.src = headshots[index].src;
+  img.alt = headshots[index].name || "";
+  imgWrap.appendChild(img);
+
+  const nextBtn = document.createElement("button");
+  nextBtn.className = "lb-hs-next";
+  nextBtn.innerHTML = "&#8594;";
+  nextBtn.setAttribute("aria-label", "Next");
+  nextBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    lbHsGoto((_lbHsIndex + 1) % headshots.length);
+  });
+
+  stage.appendChild(prevBtn);
+  stage.appendChild(imgWrap);
+  stage.appendChild(nextBtn);
+
+  const footer = document.createElement("div");
+  footer.className = "lb-hs-footer";
+  const nameEl = document.createElement("p");
+  nameEl.className = "lb-hs-name";
+  nameEl.textContent = headshots[index].name || "";
+  const counter = document.createElement("p");
+  counter.className = "lb-hs-counter";
+  counter.textContent = `${index + 1} / ${headshots.length}`;
+  footer.appendChild(nameEl);
+  footer.appendChild(counter);
+
+  const altsEl = document.createElement("div");
+  altsEl.className = "lb-hs-alts";
+  const hs = headshots[index];
+  if (hs.alts && hs.alts.length > 0) {
+    hs.alts.forEach((altSrc) => {
+      const a = document.createElement("img");
+      a.className = "lb-hs-alt";
+      a.src = altSrc;
+      a.addEventListener("click", () => { img.src = altSrc; });
+      altsEl.appendChild(a);
+    });
+  } else {
+    altsEl.style.display = "none";
+  }
+
+  _lbHs.appendChild(stage);
+  _lbHs.appendChild(footer);
+  _lbHs.appendChild(altsEl);
+
+  _lbHsIndex = index;
+  _lbImg.style.display = "none";
+  _lbSeq.classList.remove("is-visible");
+  _lbHs.classList.add("is-visible");
+  _lb.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("lightboxClose").focus();
+}
+
 function initLightbox() {
   _lb    = document.getElementById("lightbox");
   _lbImg = document.getElementById("lightboxImg");
   _lbSeq = document.getElementById("lightboxSeq");
+  _lbHs  = document.getElementById("lightboxHs");
   const closeBtn = document.getElementById("lightboxClose");
 
   // Stills: click to open
@@ -273,11 +415,16 @@ function initLightbox() {
     img.addEventListener("click", () => lbOpenStill(img.src, img.alt));
   });
 
-  // Close via button, backdrop, or Escape
+  // Close via button, backdrop, or Escape; arrow keys for headshots
   closeBtn.addEventListener("click", lbClose);
   _lb.addEventListener("click", (e) => { if (e.target === _lb) lbClose(); });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && _lb.classList.contains("is-open")) lbClose();
+    if (!_lb.classList.contains("is-open")) return;
+    if (e.key === "Escape") { lbClose(); return; }
+    if (_lbHsIndex >= 0) {
+      if (e.key === "ArrowLeft")  lbHsGoto((_lbHsIndex - 1 + headshots.length) % headshots.length);
+      if (e.key === "ArrowRight") lbHsGoto((_lbHsIndex + 1) % headshots.length);
+    }
   });
 }
 
@@ -285,13 +432,18 @@ function initLightbox() {
 
 function init() {
   const grid = document.getElementById("galleryGrid");
-  if (!grid) return;
+  if (grid) {
+    sequences.forEach((seq, i) => {
+      const card = buildCard(seq, i);
+      attachEvents(card);
+      grid.appendChild(card);
+    });
+  }
 
-  sequences.forEach((seq, i) => {
-    const card = buildCard(seq, i);
-    attachEvents(card);
-    grid.appendChild(card);
-  });
+  const hsGrid = document.getElementById("hsGrid");
+  if (hsGrid) {
+    headshots.forEach((hs, i) => hsGrid.appendChild(buildHsCard(hs, i)));
+  }
 
   initLightbox();
 }
